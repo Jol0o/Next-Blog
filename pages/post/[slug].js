@@ -35,6 +35,9 @@ export default function index({ post }) {
 export async function getStaticPaths() {
     try {
         const res = await fetch('http://localhost:3000/api/post');
+        if (res.status !== 200) {
+            throw new Error('Failed to fetch data');
+        }
         const posts = await res.json();
 
         const paths = posts.map((post) => ({
@@ -49,7 +52,6 @@ export async function getStaticPaths() {
     } catch (error) {
         console.error(error);
         return {
-            paths: [],
             fallback: false,
         };
     }
@@ -58,6 +60,9 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
     try {
         const res = await fetch(`http://localhost:3000/api/post/${params.slug}`);
+        if (res.status !== 200) {
+            throw new Error('Failed to fetch data');
+        }
         const post = await res.json();
 
         return {
@@ -66,7 +71,7 @@ export async function getStaticProps({ params }) {
     } catch (error) {
         console.error(error);
         return {
-            props: { post: null },
+            props: { post: [] },
         };
     }
 }
