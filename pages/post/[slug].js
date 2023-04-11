@@ -2,7 +2,6 @@ import React from 'react'
 import Image from 'next/image';
 
 export default function index({ post }) {
-    console.log(post)
     return (
         <div className='w-full min-h-screen mt-5'>
             <div className='container m-auto'>
