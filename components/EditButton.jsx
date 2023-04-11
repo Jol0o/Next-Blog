@@ -32,12 +32,17 @@ export default function EditButton({ post_id, post, category }) {
     return postData;
   };
   const deleteData = async () => {
-    const res = await axios.delete(`http://localhost:3000/api/post/${post_id}`);
-    const removeData = res.data;
-    return () => {
-      removeData;
+    try {
+      const res = await fetch(`http://localhost:3000/api/post/${post_id}`, {
+        method: "DELETE",
+      });
+      const removeData = await res.json();
       router.push("/");
-    };
+      return removeData;
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
   };
 
   const handleDelete = (e) => {
