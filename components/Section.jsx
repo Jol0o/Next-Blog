@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import BlackSection from "./BlackSection";
 import EditButton from "./EditButton";
 
 export default function Section({ post, category }) {
@@ -96,9 +95,4 @@ export default function Section({ post, category }) {
       </div>
     </div>
   );
-}
-{
-  /*<div className="w-full p-2 mt-5 lg:p-0">
-        <BlackSection post={post} category={category} />
-</div> */
 }

@@ -1,4 +1,3 @@
-import axios from "axios";
 import Section from '../components/Section';
 
 export default function Home({ post, category }) {
@@ -10,11 +9,22 @@ export default function Home({ post, category }) {
 }
 
 export async function getStaticProps(context) {
-  const postRes = await axios.get('http://localhost:3000/api/post');
-  const post = await postRes.data;
-  const categoryRes = await axios.get('http://localhost:3000/api/category');
-  const category = await categoryRes.data;
-  return {
-    props: { post, category }, // will be passed to the page component as props
+  try {
+    const [postRes, categoryRes] = await Promise.all([
+      fetch('http://localhost:3000/api/post'),
+      fetch('http://localhost:3000/api/category'),
+    ]);
+    const [post, category] = await Promise.all([
+      postRes.json(),
+      categoryRes.json(),
+    ]);
+    return {
+      props: { post, category },
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      props: { post, category },
+    };
   }
 }

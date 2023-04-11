@@ -2,7 +2,6 @@
 import { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { AiOutlineUser } from "react-icons/ai";
-import axios from "axios";
 
 export default function FormModal({ open, setOpen }) {
   const [value, setValue] = useState({
@@ -19,9 +18,14 @@ export default function FormModal({ open, setOpen }) {
   const [category, setCategory] = useState(null);
 
   const getCat = async () => {
-    const res = await axios.get("http://localhost:3000/api/category");
-    const data = await res.data;
-    setCategory(data);
+    try {
+      const res = await fetch("http://localhost:3000/api/category");
+      const data = await res.json();
+      setCategory(data);
+    } catch (err) {
+      console.error(err);
+      setCategory([]);
+    }
   };
 
   useEffect(() => {
@@ -29,9 +33,20 @@ export default function FormModal({ open, setOpen }) {
   }, []);
 
   const postData = async () => {
-    const res = await axios.post("http://localhost:3000/api/post", value);
-    const postData = res.data;
-    return postData;
+    try {
+      const res = await fetch("http://localhost:3000/api/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(value),
+      });
+      const postData = await res.json();
+      return postData;
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
   };
 
   return (

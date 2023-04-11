@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { auth } from './../../../firebase/firebase';
 import {
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
+    signInWithEmailAndPassword
 } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from 'next/router';
@@ -59,7 +58,7 @@ export default function Login() {
         console.log(user);
     }, [user]);
 
-   
+
 
     return (
         <>

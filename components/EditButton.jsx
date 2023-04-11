@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios";
+
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
@@ -21,8 +21,14 @@ export default function EditButton({ post_id, post, category }) {
   });
 
   const postData = async () => {
-    const res = await axios.put("http://localhost:3000/api/post", value);
-    const postData = res.data;
+    const res = await fetch("http://localhost:3000/api/post", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(value),
+    });
+    const postData = await res.json();
     return postData;
   };
   const deleteData = async () => {
