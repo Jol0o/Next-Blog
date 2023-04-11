@@ -34,20 +34,22 @@ export default function index({ post }) {
 
 export async function getStaticPaths() {
     try {
-        const res = await fetch("http://localhost:3000/api/post");
-        const post = await res.json();
-        const paths = post.map((post) => ({
+        const res = await fetch('http://localhost:3000/api/post');
+        const posts = await res.json();
+
+        const paths = posts.map((post) => ({
             params: { slug: post.slug.toString() },
         }));
+
         return {
             paths,
             fallback: false,
             // can also be true or 'blocking'
         };
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        console.error(error);
         return {
-            paths,
+            paths: [],
             fallback: false,
         };
     }
@@ -57,13 +59,14 @@ export async function getStaticProps({ params }) {
     try {
         const res = await fetch(`http://localhost:3000/api/post/${params.slug}`);
         const post = await res.json();
+
         return {
             props: { post },
         };
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        console.error(error);
         return {
-            props: { post },
+            props: { post: null },
         };
     }
 }
